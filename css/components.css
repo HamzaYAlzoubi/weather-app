@@ -90,14 +90,14 @@
   border: none;
   color: var(--color-text-primary);
   border-radius: 50%; /* Circle */
-  width: 28px;        /* Fixed width */
-  height: 28px;       /* Fixed height */
-  display: none;      /* Hidden by default */
+  width: 28px; /* Fixed width */
+  height: 28px; /* Fixed height */
+  display: none; /* Hidden by default */
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 0;         /* Clear padding */
+  padding: 0; /* Clear padding */
 }
 
 .clear-btn:hover {
@@ -110,9 +110,29 @@
   height: 16px;
 }
 
-
 .search-btn-hidden {
   display: none;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--color-text-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: none; /* Hidden by default */
+  pointer-events: none;
+}
+
+body.light-mode .loading-spinner {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-top-color: var(--color-text-primary);
 }
 
 /* Welcome Screen */
@@ -194,7 +214,8 @@
   width: 180px;
   height: 180px;
   /* Enhanced Glow & Brightness for Dark Mode */
-  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4)) brightness(1.3) contrast(1.1);
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4)) brightness(1.3)
+    contrast(1.1);
   margin: 0 auto;
 }
 
@@ -208,7 +229,7 @@
   border-radius: var(--radius-card);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: var(--space-lg);
-  
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-lg);
@@ -256,7 +277,7 @@
 /* Theme Toggle Button (Flex Item now) */
 .theme-toggle-btn {
   /* Remove absolute positioning */
-  position: static; 
+  position: static;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -281,20 +302,29 @@
 body.light-mode .theme-toggle-btn {
   color: #fff;
   background: rgba(255, 255, 255, 0.3);
-} 
+}
 
 /* Fixed Icons Display Issue */
-.theme-icon-sun, .theme-icon-moon {
+.theme-icon-sun,
+.theme-icon-moon {
   pointer-events: none; /* Prevent click interference */
 }
 
 /* Default (Dark): Show Sun, Hide Moon */
-.theme-icon-moon { display: none; }
-.theme-icon-sun { display: block; }
+.theme-icon-moon {
+  display: none;
+}
+.theme-icon-sun {
+  display: block;
+}
 
 /* Light Mode: Show Moon, Hide Sun - USING !important to force override if needed */
-body.light-mode .theme-icon-sun { display: none !important; }
-body.light-mode .theme-icon-moon { display: block !important; } 
+body.light-mode .theme-icon-sun {
+  display: none !important;
+}
+body.light-mode .theme-icon-moon {
+  display: block !important;
+}
 
 /* ========================================= */
 /* LIGHT MODE COMPONENT OVERRIDES            */
@@ -397,5 +427,3 @@ body.light-mode .history-chip:hover {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
-
-

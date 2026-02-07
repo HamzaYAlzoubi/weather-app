@@ -87,8 +87,11 @@ async function handleSearch(e) {
   if (!city) return;
 
   UI.hideSuggestions();
+  UI.toggleLoading(true); // Show Spinner
 
   const result = await fetchWeather(city);
+
+  UI.toggleLoading(false); // Hide Spinner
 
   if (result.success) {
     addToHistory(city);

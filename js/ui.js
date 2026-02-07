@@ -11,6 +11,7 @@ export function initElements() {
     themeToggle: document.getElementById("theme-toggle"), // New
     container: document.getElementById("weather-container"),
     suggestionsBox: null,
+    loadingSpinner: document.getElementById("loading-spinner"), // New
   };
 
   // Create suggestions box dynamically
@@ -125,8 +126,11 @@ export function hideSuggestions() {
 }
 
 export function toggleClearButton(isVisible) {
-  const { clearBtn, searchIcon } = window.ui;
+  const { clearBtn, searchIcon, loadingSpinner } = window.ui;
   if (!clearBtn) return;
+
+  // If loading, do nothing (toggleLoading handles it)
+  if (loadingSpinner && loadingSpinner.style.display === "block") return;
 
   if (isVisible) {
     clearBtn.style.display = "flex";
@@ -135,6 +139,22 @@ export function toggleClearButton(isVisible) {
   } else {
     clearBtn.style.display = "none";
     if (searchIcon) searchIcon.style.opacity = "1";
+  }
+}
+
+export function toggleLoading(isLoading) {
+  const { clearBtn, searchIcon, loadingSpinner, searchInput } = window.ui;
+  if (!loadingSpinner) return;
+
+  if (isLoading) {
+    loadingSpinner.style.display = "block";
+    if (clearBtn) clearBtn.style.display = "none";
+    if (searchIcon) searchIcon.style.opacity = "0";
+  } else {
+    loadingSpinner.style.display = "none";
+    // Restore state based on input
+    const hasText = searchInput && searchInput.value.trim().length > 0;
+    toggleClearButton(hasText);
   }
 }
 
