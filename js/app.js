@@ -1,90 +1,39 @@
-// Main App Entry Point
-
 import { fetchWeather } from "./api.js";
 import * as UI from "./ui.js";
-import * as Storage from "./storage.js";
-import { isValidCityName } from "./utils.js";
 
-function initApp() {
+function init() {
   UI.initElements();
-  UI.showEmptyState();
-  loadLastCity();
-  loadRecentSearches();
-  setupEventListeners();
+
+  // Set default city or focus
   UI.focusSearchInput();
+
+  // Event Listeners
+  const form = document.getElementById("search-form");
+  form.addEventListener("submit", handleSearch);
 }
 
-function loadLastCity() {
-  const lastCity = Storage.getLastCity();
-  if (lastCity) {
-    UI.setSearchValue(lastCity);
-    handleSearch(lastCity);
-  }
-}
-
-function loadRecentSearches() {
-  const searches = Storage.getRecentSearches();
-  UI.updateRecentSearches(searches, handleRecentSearchClick);
-}
-
-function setupEventListeners() {
-  const form = UI.getSearchForm();
-  if (form) form.addEventListener("submit", handleFormSubmit);
-
-  window.addEventListener("online", () => {});
-  window.addEventListener("offline", () =>
-    UI.showError("No internet connection"),
-  );
-
-  document.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-      e.preventDefault();
-      UI.focusSearchInput();
-    }
-  });
-}
-
-function handleFormSubmit(event) {
-  event.preventDefault();
+async function handleSearch(e) {
+  e.preventDefault();
   const city = UI.getSearchValue();
 
-  if (!isValidCityName(city)) {
-    UI.showError("Please enter a valid city name");
-    return;
-  }
+  if (!city) return;
 
-  handleSearch(city);
-}
+  // Show loading state (simple text for now, or keep old UI)
+  // For this design, maybe just keep current view until load?
+  // Let's assume fast loading.
 
-async function handleSearch(city) {
-  UI.setButtonLoading(true);
-  UI.showLoading();
+  const result = await fetchWeather(city);
 
-  try {
-    const result = await fetchWeather(city);
-
-    if (result.success && result.data) {
-      UI.showWeather(result.data);
-      Storage.setLastCity(city);
-      Storage.addRecentSearch(city);
-      loadRecentSearches();
-    } else {
-      UI.showError(result.message || "Something went wrong");
-    }
-  } catch (error) {
-    UI.showError("Error fetching weather. Try again.");
-  } finally {
-    UI.setButtonLoading(false);
+  if (result.success) {
+    UI.showWeather(result.data);
+  } else {
+    UI.showError(result.message);
   }
 }
 
-function handleRecentSearchClick(city) {
-  UI.setSearchValue(city);
-  handleSearch(city);
-}
-
+// Start App
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initApp);
+  document.addEventListener("DOMContentLoaded", init);
 } else {
-  initApp();
+  init();
 }

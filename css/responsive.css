@@ -51,9 +51,10 @@
 @media (min-width: 1024px) {
   .app-container {
     padding: var(--space-2xl);
-    max-width: 1000px;
+    padding-top: 5rem; /* More breathing room on top */
+    max-width: 800px;  /* Slightly narrower for better focus */
     margin: 0 auto;
   }
-  .weather-icon { width: 150px; height: 150px; }
-  .weather-details { grid-template-columns: repeat(4, 1fr); }
+  .weather-icon { width: 160px; height: 160px; }
+  .weather-details { grid-template-columns: repeat(3, 1fr); } /* Keep it compact */
 }

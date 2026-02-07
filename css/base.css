@@ -4,86 +4,55 @@
   padding: 0;
 }
 
-ul, ol { list-style: none; }
-
-img, video, svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-html {
-  -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
-}
-
 body {
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
+  font-family: 'Inter', system-ui, sans-serif;
   color: var(--color-text-primary);
-  background: var(--color-bg-dark);
+  background-color: var(--color-bg-space);
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
 }
 
+/* Space Background with Stars */
 body::before {
-  content: '';
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(1px 1px at 10% 10%, white 100%, transparent),
+    radial-gradient(1px 1px at 20% 20%, white 100%, transparent),
+    radial-gradient(2px 2px at 30% 30%, white 100%, transparent),
+    radial-gradient(1px 1px at 40% 40%, white 100%, transparent),
+    radial-gradient(2px 2px at 50% 50%, white 100%, transparent),
+    radial-gradient(1px 1px at 60% 60%, white 100%, transparent),
+    radial-gradient(2px 2px at 70% 70%, white 100%, transparent),
+    radial-gradient(1px 1px at 80% 80%, white 100%, transparent),
+    radial-gradient(2px 2px at 90% 90%, white 100%, transparent);
+  background-size: 550px 550px;
+  opacity: 0.6;
+  z-index: -2;
+  animation: stars-move 100s linear infinite;
+}
+
+/* Subtle Nebula Effect */
+body::after {
+  content: "";
   position: fixed;
   inset: 0;
   background: 
-    radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
-    var(--color-bg-dark);
+    radial-gradient(circle at 50% -20%, rgba(68, 86, 240, 0.15), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.15), transparent 50%);
   z-index: -1;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
+@keyframes stars-move {
+  from { background-position: 0 0; }
+  to { background-position: 550px 550px; }
 }
 
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-}
-
-a:hover { color: var(--color-primary-light); }
-
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: white;
-  padding: var(--space-sm) var(--space-md);
-  border-radius: var(--radius-md);
-  z-index: 9999;
-}
-
-.skip-link:focus { top: var(--space-md); }
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
 .hidden { display: none !important; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}

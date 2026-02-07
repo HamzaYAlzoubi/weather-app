@@ -2,13 +2,13 @@
   "name": "Weather App",
   "short_name": "Weather",
   "description": "Professional weather app to check weather for any city worldwide",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0f0f23",
   "theme_color": "#667eea",
   "icons": [
     {
-      "src": "/assets/icons/favicon.svg",
+      "src": "assets/icons/favicon.svg",
       "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"

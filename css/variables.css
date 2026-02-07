@@ -1,63 +1,30 @@
 :root {
-  /* Colors */
-  --color-primary: #667eea;
-  --color-primary-light: #7c93f5;
-  --color-secondary: #764ba2;
-  
-  --color-bg-dark: #0f0f23;
-  --color-bg-card: rgba(255, 255, 255, 0.08);
-  --color-bg-card-hover: rgba(255, 255, 255, 0.12);
+  /* Space Theme Colors */
+  --color-bg-space: #0b0c1e;      /* Deep dark blue/black */
+  --color-bg-overlay: rgba(255, 255, 255, 0.1);
   
   --color-text-primary: #ffffff;
-  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
   --color-text-muted: rgba(255, 255, 255, 0.5);
   
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-border-light: rgba(255, 255, 255, 0.2);
+  --color-accent: #7c93f5;       /* Light Blue/Purple for accents */
   
-  --color-success: #10b981;
-  --color-error: #ef4444;
-
+  --color-glass-border: rgba(255, 255, 255, 0.15);
+  
+  /* Font Sizes */
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-temp: 5rem;       /* Huge font for temperature */
+  
   /* Spacing */
-  --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
-  --space-2xl: 3rem;
 
-  /* Typography */
-  --font-family: 'Inter', system-ui, sans-serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
-  --font-size-4xl: 3rem;
-
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-full: 9999px;
-
-  /* Shadows */
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.3);
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-bg-hover: rgba(255, 255, 255, 0.12);
-  --glass-blur: blur(20px);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  /* Radius */
+  --radius-search: 30px;        /* Rounded search bar */
+  --radius-card: 24px;
 }

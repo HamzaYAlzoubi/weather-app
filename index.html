@@ -3,93 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
   
-  <!-- SEO -->
-  <title>Weather App | Check Weather for Any City</title>
-  <meta name="description" content="Professional weather app to check current weather for any city worldwide.">
-  
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#667eea">
+  <meta name="theme-color" content="#0b0c1e">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-  <link rel="apple-touch-icon" href="assets/icons/favicon.svg">
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
 </head>
-
 <body>
-  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <div class="app-container">
-    <header class="app-header">
-      <h1 class="app-title">🌤️ Weather App</h1>
-      <p class="app-subtitle">Discover weather anywhere in the world</p>
-    </header>
+    
+    <!-- Top Search Bar -->
+    <form id="search-form" class="search-container">
+      <div class="search-input-wrapper">
+        <input 
+          type="search" 
+          id="search-input"
+          class="search-input"
+          placeholder="Search city..."
+          autocomplete="off"
+          required
+        >
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+    </form>
 
-    <main id="main-content" class="app-main" role="main">
-      <section aria-label="Search for a city">
-        <form id="search-form" class="search-container" role="search">
-          <div class="search-input-wrapper">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.3-4.3"/>
-            </svg>
-            <input 
-              type="search" 
-              id="search-input"
-              class="search-input"
-              placeholder="Search for a city..."
-              autocomplete="off"
-              aria-label="Enter city name"
-              required
-              minlength="2"
-              maxlength="100"
-            >
-          </div>
-          
-          <button type="submit" id="search-btn" class="btn btn-primary" aria-label="Search weather">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="m21 21-4.3-4.3"/>
-            </svg>
-            <span>Search</span>
-          </button>
-        </form>
-        
-        <div id="recent-searches" class="recent-searches hidden" aria-label="Recent searches">
-          <p class="recent-searches-title">Recent:</p>
-          <div id="recent-list" class="recent-searches-list" role="list"></div>
-        </div>
-      </section>
-
-      <section id="weather-container" class="weather-card-container" aria-live="polite" aria-atomic="true">
-      </section>
+    <!-- Main Content Area -->
+    <main id="weather-container">
+      <!-- Content injected by JS -->
     </main>
 
-    <footer class="app-footer">
-      <p>Made with ❤️ | Data from <a href="https://openweathermap.org" target="_blank" rel="noopener">OpenWeatherMap</a></p>
-    </footer>
   </div>
 
   <script type="module" src="js/app.js"></script>
-  
-  <noscript>
-    <p style="text-align:center;padding:2rem;">⚠️ JavaScript is required to use this app.</p>
-  </noscript>
 </body>
 </html>
