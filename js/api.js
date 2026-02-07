@@ -36,15 +36,20 @@ export async function fetchWeather(city) {
         country: data.sys?.country,
         temperature: Math.round(data.main?.temp),
         feelsLike: Math.round(data.main?.feels_like),
+        tempMin: Math.round(data.main?.temp_min),
+        tempMax: Math.round(data.main?.temp_max),
         humidity: data.main?.humidity,
+        pressure: data.main?.pressure,
         description: data.weather?.[0]?.description,
         icon: data.weather?.[0]?.icon,
         iconUrl: `https://openweathermap.org/img/wn/${data.weather?.[0]?.icon}@4x.png`,
         windSpeed: data.wind?.speed,
         visibility: data.visibility,
-        timezone: data.timezone, // Added timezone for local time calculation
-        coord: data.coord, // Added coord for map or other features
-        // Passing raw data too if needed later
+        clouds: data.clouds?.all,
+        sunrise: data.sys?.sunrise,
+        sunset: data.sys?.sunset,
+        timezone: data.timezone,
+        coord: data.coord,
         raw: data,
       },
     };

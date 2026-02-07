@@ -162,6 +162,10 @@ export function showWeather(data) {
     data.timezone,
   );
 
+  // Format sunrise/sunset times
+  const sunrise = formatLocalTime(data.sunrise, data.timezone);
+  const sunset = formatLocalTime(data.sunset, data.timezone);
+
   container.innerHTML = `
     <div class="weather-card animate-fade-in-up">
       <h1 class="city-name">${locationText}</h1>
@@ -170,6 +174,7 @@ export function showWeather(data) {
       <div class="current-temp-wrapper">
         <span class="current-temp">${temp}</span><span class="temp-unit">°</span>
       </div>
+      <p class="feels-like">Feels like ${data.feelsLike}°</p>
       
       <p class="weather-desc">${data.description}</p>
       
@@ -187,6 +192,18 @@ export function showWeather(data) {
         <div class="detail-item">
           <span class="detail-label">Visibility</span>
           <span class="detail-value">${visibility} km</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Pressure</span>
+          <span class="detail-value">${data.pressure} hPa</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Sunrise</span>
+          <span class="detail-value">${sunrise}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Sunset</span>
+          <span class="detail-value">${sunset}</span>
         </div>
       </div>
     </div>
