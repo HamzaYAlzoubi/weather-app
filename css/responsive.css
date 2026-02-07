@@ -3,6 +3,7 @@
   flex-direction: column;
   min-height: 100vh;
   padding: var(--space-md);
+  position: relative; /* Default for mobile/tablet */
 }
 
 .app-header {
@@ -51,10 +52,33 @@
 @media (min-width: 1024px) {
   .app-container {
     padding: var(--space-2xl);
-    padding-top: 5rem; /* More breathing room on top */
-    max-width: 800px;  /* Slightly narrower for better focus */
+    padding-top: var(--space-xl); /* Same as tablet */
+    max-width: 800px;
     margin: 0 auto;
   }
   .weather-icon { width: 160px; height: 160px; }
-  .weather-details { grid-template-columns: repeat(3, 1fr); } /* Keep it compact */
+  .weather-details { grid-template-columns: repeat(3, 1fr); } 
+}
+
+/* Custom Desktop Layout for Theme Toggle (>= 1025px) */
+@media (min-width: 1025px) {
+  /* Release the button from container constraints to position relative to viewport/body */
+  .app-container {
+    position: static; 
+  }
+
+  .top-bar-container {
+    position: static;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .theme-toggle-btn {
+    position: absolute !important;
+    top: 2rem;
+    right: 2rem;
+    margin: 0;
+    z-index: 1000;
+  }
 }

@@ -1,4 +1,6 @@
 // UI Controller for Space Theme
+import { formatLocalTime } from "./utils.js";
+import { getHistory } from "./storage.js";
 
 export function initElements() {
   window.ui = {
@@ -6,21 +8,120 @@ export function initElements() {
     searchInput: document.getElementById("search-input"),
     clearBtn: document.getElementById("clear-btn"),
     searchIcon: document.querySelector(".search-icon"),
+    themeToggle: document.getElementById("theme-toggle"), // New
     container: document.getElementById("weather-container"),
+    suggestionsBox: null,
   };
+
+  // Create suggestions box dynamically
+  const wrapper = document.querySelector(".search-input-wrapper");
+  if (wrapper && !document.getElementById("suggestions-box")) {
+    const box = document.createElement("div");
+    box.id = "suggestions-box";
+    box.className = "suggestions-box hidden";
+    wrapper.appendChild(box);
+    window.ui.suggestionsBox = box;
+  } else if (wrapper) {
+    window.ui.suggestionsBox = document.getElementById("suggestions-box");
+  }
 }
 
-export function showWelcomeState() {
+// --- Theme Logic ---
+export function initTheme() {
+  const savedTheme = localStorage.getItem("weather_app_theme");
+  if (savedTheme === "light") {
+    document.body.classList.add("light-mode");
+  }
+}
+
+export function toggleTheme() {
+  const isLight = document.body.classList.toggle("light-mode");
+  localStorage.setItem("weather_app_theme", isLight ? "light" : "dark");
+}
+
+// ... (Rest of functions: showWelcomeState, showSuggestions, etc.)
+
+export function showWelcomeState(onHistoryClick) {
   const { container } = window.ui;
   const iconUrl = "assets/icons/favicon.svg";
+  const history = getHistory();
+
+  let historyHTML = "";
+  if (history && history.length > 0) {
+    historyHTML = `
+      <div class="history-container animate-fade-in" style="margin-top: 2rem;">
+        <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 10px;">Recent Searches</p>
+        <div class="history-chips" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          ${history
+            .map(
+              (city) => `
+            <button class="history-chip" data-city="${city}">
+              ${city}
+            </button>
+          `,
+            )
+            .join("")}
+        </div>
+      </div>
+    `;
+  }
 
   container.innerHTML = `
     <div class="welcome-state animate-fade-in-up">
       <img src="${iconUrl}" alt="Welcome" class="welcome-icon animate-float">
       <h2 class="welcome-title">Welcome to Weather App</h2>
       <p class="welcome-subtitle">Enter a city name above to discover the weather anywhere in the world.</p>
+      ${historyHTML}
     </div>
   `;
+
+  if (onHistoryClick) {
+    const chips = container.querySelectorAll(".history-chip");
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const city = chip.dataset.city;
+        onHistoryClick(city);
+      });
+    });
+  }
+}
+
+export function showSuggestions(suggestions, onSelectCallback) {
+  const { suggestionsBox } = window.ui;
+  if (!suggestionsBox) return;
+
+  suggestionsBox.innerHTML = "";
+
+  if (!suggestions || suggestions.length === 0) {
+    suggestionsBox.classList.add("hidden");
+    return;
+  }
+
+  suggestions.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "suggestion-item";
+
+    // Construct label
+    const parts = [item.name, item.state, item.country].filter(Boolean);
+    div.textContent = parts.join(", ");
+
+    div.addEventListener("click", (e) => {
+      e.stopPropagation();
+      onSelectCallback(item.name);
+      hideSuggestions();
+    });
+
+    suggestionsBox.appendChild(div);
+  });
+
+  suggestionsBox.classList.remove("hidden");
+}
+
+export function hideSuggestions() {
+  const { suggestionsBox } = window.ui;
+  if (suggestionsBox) {
+    suggestionsBox.classList.add("hidden");
+  }
 }
 
 export function toggleClearButton(isVisible) {
@@ -30,8 +131,6 @@ export function toggleClearButton(isVisible) {
   if (isVisible) {
     clearBtn.style.display = "flex";
     clearBtn.classList.add("animate-fade-in");
-
-    // Hide search icon to avoid visual clutter
     if (searchIcon) searchIcon.style.opacity = "0";
   } else {
     clearBtn.style.display = "none";
@@ -44,6 +143,7 @@ export function clearInput() {
   if (searchInput) {
     searchInput.value = "";
     searchInput.focus();
+    hideSuggestions();
   }
 }
 
@@ -53,15 +153,19 @@ export function showWeather(data) {
   const locationText = data.country
     ? `${data.city}, ${data.country}`
     : data.city;
-
-  // Using Math.round for cleaner numbers
   const temp = Math.round(data.temperature);
   const wind = Math.round(data.windSpeed);
   const visibility = (data.visibility / 1000).toFixed(1);
 
+  const localTime = formatLocalTime(
+    Math.floor(Date.now() / 1000),
+    data.timezone,
+  );
+
   container.innerHTML = `
     <div class="weather-card animate-fade-in-up">
       <h1 class="city-name">${locationText}</h1>
+      <p class="local-time">${localTime}</p>
       
       <div class="current-temp-wrapper">
         <span class="current-temp">${temp}</span><span class="temp-unit">°</span>
@@ -101,9 +205,13 @@ export function showError(msg) {
 }
 
 export function getSearchValue() {
-  return window.ui.searchInput.value.trim();
+  return window.ui.searchInput ? window.ui.searchInput.value.trim() : "";
+}
+
+export function setSearchValue(val) {
+  if (window.ui.searchInput) window.ui.searchInput.value = val;
 }
 
 export function focusSearchInput() {
-  window.ui.searchInput.focus();
+  if (window.ui.searchInput) window.ui.searchInput.focus();
 }

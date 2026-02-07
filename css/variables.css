@@ -28,3 +28,20 @@
   --radius-search: 30px;        /* Rounded search bar */
   --radius-card: 24px;
 }
+
+body.light-mode {
+  /* Modern Off-White Theme */
+  --color-bg-space: #FAF9F6;      /* Warm Off-White */
+  
+  /* Glass Cards with subtle shadow */
+  --color-bg-overlay: rgba(0, 0, 0, 0.03); 
+  --color-glass-border: rgba(0, 0, 0, 0.08);
+  
+  /* Text Colors - High Contrast for readability */
+  --color-text-primary: #1a1a1a;   /* Almost Black */
+  --color-text-secondary: #4a4a4a; /* Dark Grey */
+  --color-text-muted: #6b7280;     /* Medium Grey */
+  
+  /* Accent */
+  --color-accent: #3b82f6;
+}

@@ -1,50 +1,53 @@
-// LocalStorage manager
+// Storage Management
 
-const STORAGE_KEYS = {
-  RECENT_SEARCHES: "weather_recent",
-  LAST_CITY: "weather_last",
-};
+const HISTORY_KEY = "weather_app_history";
+const MAX_HISTORY = 3;
 
-const MAX_RECENT = 5;
-
-function setItem(key, value) {
+// --- History Management ---
+export function getHistory() {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
-    return true;
-  } catch {
-    return false;
+    const history = localStorage.getItem(HISTORY_KEY);
+    return history ? JSON.parse(history) : [];
+  } catch (e) {
+    console.error("Error reading history", e);
+    return [];
   }
 }
 
-function getItem(key, defaultValue = null) {
+export function addToHistory(city) {
+  if (!city) return;
+
   try {
-    const item = localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
-  } catch {
-    return defaultValue;
+    let history = getHistory();
+
+    // Remove duplicates (case insensitive) to avoid "London, London"
+    history = history.filter(
+      (item) => item.toLowerCase() !== city.toLowerCase(),
+    );
+
+    // Add new city to the beginning
+    history.unshift(city);
+
+    // Limit to MAX_HISTORY (3 items)
+    if (history.length > MAX_HISTORY) {
+      history = history.slice(0, MAX_HISTORY);
+    }
+
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch (e) {
+    console.error("Error saving history", e);
   }
 }
 
-export function getRecentSearches() {
-  return getItem(STORAGE_KEYS.RECENT_SEARCHES, []);
+export function clearHistory() {
+  localStorage.removeItem(HISTORY_KEY);
 }
 
-export function addRecentSearch(city) {
-  if (!city) return getRecentSearches();
-
-  let searches = getRecentSearches();
-  searches = searches.filter((s) => s.toLowerCase() !== city.toLowerCase());
-  searches.unshift(city.trim());
-  searches = searches.slice(0, MAX_RECENT);
-
-  setItem(STORAGE_KEYS.RECENT_SEARCHES, searches);
-  return searches;
-}
-
-export function setLastCity(city) {
-  setItem(STORAGE_KEYS.LAST_CITY, city);
+// --- Last City (for auto-load if needed) ---
+export function saveLastCity(city) {
+  localStorage.setItem("weather_last_city", city);
 }
 
 export function getLastCity() {
-  return getItem(STORAGE_KEYS.LAST_CITY);
+  return localStorage.getItem("weather_last_city");
 }

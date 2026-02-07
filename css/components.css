@@ -21,7 +21,7 @@
   -webkit-backdrop-filter: blur(10px);
   padding: 1rem 3rem 1rem 1.5rem; /* Padding for icon */
   border-radius: var(--radius-search);
-  color: white;
+  color: var(--color-text-primary);
   font-size: var(--font-size-base);
   transition: all 0.3s ease;
 }
@@ -46,6 +46,40 @@
   transition: opacity 0.2s;
 }
 
+/* Suggestions Dropdown */
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(30, 30, 50, 0.95);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-card);
+  margin-top: 5px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 12px 20px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+  font-size: 0.95rem;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 /* Clear Button (Circular Shape) */
 .clear-btn {
   position: absolute;
@@ -54,7 +88,7 @@
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
+  color: var(--color-text-primary);
   border-radius: 50%; /* Circle */
   width: 28px;        /* Fixed width */
   height: 28px;       /* Fixed height */
@@ -89,7 +123,7 @@
   justify-content: center;
   text-align: center;
   padding-top: 4rem;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .welcome-icon {
@@ -118,7 +152,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: white;
+  color: var(--color-text-primary);
   padding-top: var(--space-xl);
 }
 
@@ -198,3 +232,162 @@
   font-size: 1.1rem;
   font-weight: 600;
 }
+
+/* Top Bar Layout */
+.top-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  position: relative;
+  z-index: 100;
+}
+
+/* Search Container Adjustment */
+.search-container {
+  width: 100%;
+  flex: 1;
+  margin-bottom: 0; /* Remove bottom margin as it's handled by container */
+}
+
+/* Theme Toggle Button (Flex Item now) */
+.theme-toggle-btn {
+  /* Remove absolute positioning */
+  position: static; 
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  flex-shrink: 0; /* Don't shrink */
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(15deg);
+}
+
+/* Light Mode specific icon colors */
+body.light-mode .theme-toggle-btn {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+} 
+
+/* Fixed Icons Display Issue */
+.theme-icon-sun, .theme-icon-moon {
+  pointer-events: none; /* Prevent click interference */
+}
+
+/* Default (Dark): Show Sun, Hide Moon */
+.theme-icon-moon { display: none; }
+.theme-icon-sun { display: block; }
+
+/* Light Mode: Show Moon, Hide Sun - USING !important to force override if needed */
+body.light-mode .theme-icon-sun { display: none !important; }
+body.light-mode .theme-icon-moon { display: block !important; } 
+
+/* ========================================= */
+/* LIGHT MODE COMPONENT OVERRIDES            */
+/* ========================================= */
+body.light-mode .search-input {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .search-input:focus {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .suggestions-box {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .suggestion-item {
+  border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .suggestion-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .clear-btn {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .clear-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode .welcome-icon {
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.1));
+}
+
+body.light-mode .current-temp {
+  text-shadow: none;
+}
+
+body.light-mode .weather-main-icon {
+  filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.1)) brightness(1) contrast(1);
+}
+
+body.light-mode .details-panel {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .theme-toggle-btn {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--color-text-primary);
+}
+
+body.light-mode .theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* History Chips */
+.history-chip {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-text-primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.history-chip:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.light-mode .history-chip {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .history-chip:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Local Time */
+.local-time {
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+

@@ -42,6 +42,8 @@ export async function fetchWeather(city) {
         iconUrl: `https://openweathermap.org/img/wn/${data.weather?.[0]?.icon}@4x.png`,
         windSpeed: data.wind?.speed,
         visibility: data.visibility,
+        timezone: data.timezone, // Added timezone for local time calculation
+        coord: data.coord, // Added coord for map or other features
         // Passing raw data too if needed later
         raw: data,
       },
@@ -49,6 +51,33 @@ export async function fetchWeather(city) {
   } catch (error) {
     console.error(error);
     return { success: false, message: error.message };
+  }
+}
+
+// 🌍 Geocoding API for Suggestions
+export async function getCitySuggestions(query) {
+  if (!query || query.length < 2) return [];
+
+  // Use the same API key
+  const limit = 5;
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=${limit}&appid=${API_KEY}`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    // Map to simple object: { name, country, state (optional) }
+    return data.map((item) => ({
+      name: item.name,
+      country: item.country,
+      state: item.state,
+      lat: item.lat,
+      lon: item.lon,
+    }));
+  } catch (error) {
+    console.error("Geocoding error:", error);
+    return [];
   }
 }
 
