@@ -1,9 +1,6 @@
 // Weather API handler
 import { isOnline, getErrorMessage } from "./utils.js";
 
-// ==========================================
-// ✅ PRODUCTION MODE (Vercel Serverless)
-// ==========================================
 const API_BASE_URL = "/api/weather";
 const GEO_API_URL = "/api/geocode";
 const TIMEOUT = 10000;
